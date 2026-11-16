@@ -1,0 +1,51 @@
+.data
+    msg1: .asciiz "\nDigite um número: "
+    msg2: .asciiz "\nO resultado da série é: "
+
+.text
+.globl main
+
+main:
+
+ler:
+    li $v0, 4
+    la $a0, msg1
+    syscall
+
+    li $v0, 5
+    syscall
+    move $t0, $v0
+
+    blez $t0, ler
+
+    li $t1, 1       
+    li $t2, 2      
+    li $t3, 0       
+    li $t4, 0       
+    li $t5, 4       
+    li $t6, 2       
+    li $t7, 1       
+
+inicio:
+    beq $t4, $t0, fim
+
+    mul $t8, $t1, $t5
+    sub $t9, $t8, $t2
+    add $t3, $t9, $t3
+    add $t1, $t1, $t6
+    add $t2, $t2, $t6
+    add $t4, $t7, $t4
+
+    j inicio
+
+fim:
+    li $v0, 4
+    la $a0, msg2
+    syscall
+
+    li $v0, 1
+    move $a0, $t3
+    syscall
+
+    li $v0, 10
+    syscall
